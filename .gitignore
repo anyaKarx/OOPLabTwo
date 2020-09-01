@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+/.vs/2020_09_AnyaKar_OOPLabTwo/v16
+/.vs/Tasks/v16
+/.vs
+/x64/Debug

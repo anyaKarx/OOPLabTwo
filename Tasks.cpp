@@ -7,11 +7,13 @@
 #include <vector>
 #include <functional>
 using namespace std;
-
+//TODO: если планируешь работать на плюсах, то разбивай проект на файлы как принято в плюсах -
+// с одной стороны, используешь сложные техники для обучения, с другой стороны - весь код в одном cpp-файле...
 namespace details
 {
     bool IsNotLetter(uint16_t symbol)
     {
+		//TODO: магические числа надо выносить в именованные константы
         bool isNumber = symbol < 1040,
             isSpecSymbol = symbol > 1103;
         return isNumber || isSpecSymbol;
@@ -42,7 +44,7 @@ namespace details
     }
 }
 
-template<typename valueType, typename isTheValueValidFunction>
+template<typename valueType, typename isTheValueValidFunction> //TODO: зачем далее пустая строка? Так принято? Код должен быть оформлен единообразно
 
 valueType GetValidValueFromUser(wstring message, isTheValueValidFunction isTheValueValid)
 {
@@ -65,7 +67,7 @@ valueType GetValidValueFromUser(wstring message, isTheValueValidFunction isTheVa
         wcin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
     }
-
+	//TODO: очистка экрана внутри часто используемых функций может мешать разработчику сделать правильную логику пользовательского интерфейса на верхнем уровне. Лучше вызывать очистку экрана в более высокоуровневых функциях, так у разработчика будет гибкость в управлении содержанием экрана
     system("cls");
     return value;
 }
@@ -96,7 +98,7 @@ wstring GetValidStringFromUser()
 
     return move(input);
 };
-
+//TODO: не более одной пустой строки
 
 
 //2.2.1.1.
@@ -129,9 +131,9 @@ void DemoSort(int count)
 
 //2.2.2.1.
 
-enum class Colors
+enum class Colors //TODO: зачем слово class?
 {
-    YELLOW,
+    YELLOW, //TODO: именование всеми заглавными буквами, а следующие перечисления написаны как обычные слова - оформить код единообразно
     GREEN,
     BLUE,
     BROWN,
@@ -148,7 +150,7 @@ struct Rectangle
     float Length;
     float Width;
     Colors Color;
-};
+}; //TODO: лишняя пустая строка
 
 
 wostream& operator<<(wostream& os, const Rectangle& rec)
@@ -162,14 +164,14 @@ struct Flight
     wstring DeparturePoint;
     wstring Destination;
     uint16_t FlightTimeInMinutes = 0;
-};
+}; //TODO: нет пустой строки
 wostream& operator<<(wostream& os, const Flight& flight)
 {
     return os << L" Рейс " << flight.DeparturePoint << L" - " << flight.Destination
         << L" находится в полете " << flight.FlightTimeInMinutes << L" минут.";
 }
 
-enum class Genres
+enum class Genres //TODO: зачем слово class
 {
     HORROR,
     DOCUMENTARY,
@@ -205,7 +207,7 @@ struct Film
     wstring Name;
     uint16_t DurationInMinutes = 0;
     uint16_t YearOfIssue = 0;
-    Genres genre;
+    Genres genre; //TODO: именование
     double Rating = 0;
 };
 
@@ -244,7 +246,8 @@ struct Song
     wstring Album;
     TimeStamp Duration;
 };
-
+//TODO: почему Options?
+//TODO: зачем class?
 enum class GradesOptions
 {
     //PASS = 0,поскольку оценка зачтено не имеет бального эквивалента
@@ -276,7 +279,7 @@ Flight DemoFlight(wstring departurePoint, wstring destination, uint16_t flightTi
 }
 
 Film DemoMovie(wstring name, uint16_t duration, uint16_t yearOfIssue, Genres genre, double rating)
-{
+{//TODO: Film или Movie? Вызываю метод DemoMovie, а получаю Film. Вредит читаемости кода
     return Film{ name, duration, yearOfIssue, genre, rating };
 }
 
@@ -308,7 +311,7 @@ auto GetInfoOfFlightfromUser()
         [](auto const& val) {return val > 0; });
     return customFlight;
 }
-
+//TODO: именование
 auto GetInfoOfFilmFromUser()
 {
     auto customMovie = make_unique<Film>();
@@ -743,6 +746,7 @@ auto DemoCustomMovies()
 auto DemoDynamicMovies()
 {
     vector<unique_ptr<Film>> films;
+	//TODO: год перепутан с продолжительностью
     films.push_back(MakeFilm(L"Мстители", 210, 2010, Genres::ADVENTURE, 7.9));
     films.push_back(MakeFilm(L"Реинкарнация", 145, 2018, Genres::HORROR, 7.5));
     films.push_back(MakeFilm(L"Джиа", 210, 2003, Genres::DRAMA, 8.2));
@@ -812,5 +816,8 @@ int main()
     _setmode(_fileno(stdout), _O_U16TEXT);
     _setmode(_fileno(stdin), _O_U16TEXT);
     _setmode(_fileno(stderr), _O_U16TEXT);
+	
     return EXIT_SUCCESS;
 }
+
+//TODO: ознакомься с понятием gitignore. Потому что в репозиторий попадает всякий трэш
